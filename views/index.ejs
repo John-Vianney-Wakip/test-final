@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>HEY</h1>
+    <h2>welcome to the site</h2>
+    <h3>the messaging site</h3>
+    <h4>make an account, login, post a message</h4>
+    <hr>
+        <a href="/createUser">Create an account</a> | 
+        <a href="/login">Login</a> | 
+        <a href="/message">post a message</a> | 
+    <hr>
+
+    <h2>Messages</h2>
+
+    <% for (let message of locals.messages) { %> 
+        <div id = 'msg'>
+            <%= message.dataValues.content %> <p id='like'></p>
+        </div>
+        <!-- <form action="/like" method="POST">
+            <input type="text" placeholder="0">
+            <button>like</button>
+        </form>
+        <form action="/unlike" method="POST">
+            <input type="text" placeholder="0">
+            <button>unlike</button>
+        </form> -->
+    <% } %>
+
+
+    <script>
+        let msg = document.getElementById('msg');
+        let like = document.getElementById('like');
+
+
+
+        // msg.addEventListener('click', postLikes);
+        msg.addEventListener('click', postLikes);
+      
+        function postLikes(e){
+            e.preventDefault();
+
+         
+            let count = 1;
+
+          fetch('/likes',
+          {method: 'POST',
+           headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-type': 'application/json'
+                   },
+          body:JSON.stringify({count: count})
+          })
+          .then((res) => res.json())
+          .then((data)=>
+            
+            like.innerText = data.count
+          );
+          
+        }
+
+    
+    </script>
+
+</body>
+</html>
